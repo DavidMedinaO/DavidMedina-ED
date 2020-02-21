@@ -42,7 +42,7 @@ public class DoublyLinkedList<T extends  Comparable> implements Ilist<T> {
     }
 
     @Override
-    public void addOrdered(T d) {
+    public void addOrdered(T d) throws Exception {
 
         if (isEmpty() || d.compareTo(head.getData()) == 1) {
             add(d);
@@ -51,19 +51,31 @@ public class DoublyLinkedList<T extends  Comparable> implements Ilist<T> {
         if (d.compareTo(tail.getData()) == -1) {
             addLast(d);
             return;
+        } else if (d.compareTo(head.getData()) == 0) {
+
+            throw new Exception("YA SE ENCUENTRA EL DATO EN LA LISTA");
+
+        } else if (d.compareTo(tail.getData()) == 0) {
+
+            throw new Exception("YA SE ENCUENTRA EL DATO EN LA LISTA");
+
         }
-        
         DoubleNode<T> current = head.getNextNode();
         DoubleNode<T> newNode;
-        
-        while (current.getData().compareTo(d)== 1) {            
-            current=current.getNextNode();
+
+        while (current.getData().compareTo(d) == 1) {
+
+            if (d.compareTo(current.getData()) == 0) {
+
+                throw new Exception("YA SE ENCUENTRA EL DATO EN LA LISTA");
+
+            }
+            current = current.getNextNode();
         }
-        
-        newNode = new DoubleNode<>(d,current.getPreviousNode(),current);
+
+        newNode = new DoubleNode<>(d, current.getPreviousNode(), current);
         current.getPreviousNode().setNextNode(newNode);
         current.setPreviousNode(newNode);
-        
 
     }
 
@@ -172,13 +184,13 @@ public class DoublyLinkedList<T extends  Comparable> implements Ilist<T> {
     }
     
     
-    public void Insertnode(T pos, T dato) {
+    public void Insertnode(T pos, T dato) throws Exception  {
         DoubleNode<T> current = this.head;
-
-        if (isEmpty()) {
-
-        } else if (this.tail.getData() == pos) {
+        
+        boolean existe = false; 
+        if (this.tail.getData() == pos) {
             
+            existe = true; 
              DoubleNode<T> newnodo = new DoubleNode<T>(dato, current, null);
              this.tail.setNextNode(newnodo);
              this.tail= newnodo; 
@@ -188,7 +200,8 @@ public class DoublyLinkedList<T extends  Comparable> implements Ilist<T> {
             while (current != null) {
 
                 if (current.getData() == pos) {
-
+                    
+                    existe = true;
                     DoubleNode<T> newnodo = new DoubleNode<T>(dato, current, current.getNextNode());
                     current.getNextNode().setPreviousNode(newnodo);
                     current.setNextNode(newnodo);
@@ -197,7 +210,14 @@ public class DoublyLinkedList<T extends  Comparable> implements Ilist<T> {
                 current = current.getNextNode();
 
             }
+            
 
+        }
+        
+        if(existe== false){
+        
+         throw new Exception("EL DATO INGRESADO NO EXISTE");
+        
         }
 
     }
@@ -227,7 +247,7 @@ public class DoublyLinkedList<T extends  Comparable> implements Ilist<T> {
 
     }
     
-    public String Buscar( String est) {
+    public String Buscar( String est) throws Exception {
 
         String estudiante = "";
         DoubleNode<Estudiante> current = (DoubleNode<Estudiante>) this.head;
@@ -241,14 +261,21 @@ public class DoublyLinkedList<T extends  Comparable> implements Ilist<T> {
             current = current.getNextNode();
 
         }
+        
+        if(estudiante.equals("")){
+        
+            
+            throw new Exception("ERROR, NO EXISTE EL ESTUDIANTE CON ESA CEDULA");
+        }else{
 
         return estudiante;
+        }
 
     }
     
     
     
-     public String BuscarBarrio(String est) {
+     public String BuscarBarrio(String est) throws Exception{
 
         String estudiante = "";
         DoubleNode<Estudiante> current = (DoubleNode<Estudiante>) this.head;
@@ -262,8 +289,16 @@ public class DoublyLinkedList<T extends  Comparable> implements Ilist<T> {
             current = current.getNextNode();
 
         }
+        if(estudiante.equals("")){
+        
+            
+            throw new Exception("ERROR, NO EXISTEN ESTUDIANTES PERTENECIENTES A ESE BARRIO");
+        }else{
 
         return estudiante;
+        }
+
+      
 
     }
      
