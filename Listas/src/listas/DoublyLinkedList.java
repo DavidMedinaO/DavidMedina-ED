@@ -44,11 +44,11 @@ public class DoublyLinkedList<T extends Number & Comparable> implements Ilist<T>
     @Override
     public void addOrdered(T d) {
 
-        if (isEmpty() || d.compareTo(head.getData()) == -1) {
+        if (isEmpty() || d.compareTo(head.getData()) == 1) {
             add(d);
             return;
         }
-        if (d.compareTo(tail.getData()) == 1) {
+        if (d.compareTo(tail.getData()) == -1) {
             addLast(d);
             return;
         }
@@ -56,7 +56,7 @@ public class DoublyLinkedList<T extends Number & Comparable> implements Ilist<T>
         DoubleNode<T> current = head.getNextNode();
         DoubleNode<T> newNode;
         
-        while (current.getData().compareTo(d)==-1) {            
+        while (current.getData().compareTo(d)== 1) {            
             current=current.getNextNode();
         }
         
@@ -136,5 +136,7 @@ public class DoublyLinkedList<T extends Number & Comparable> implements Ilist<T>
         return false;
 
     }
+    
+ 
 
 }
