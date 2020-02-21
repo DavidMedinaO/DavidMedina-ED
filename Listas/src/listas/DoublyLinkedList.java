@@ -9,7 +9,7 @@ package listas;
  *
  * @author s103e28
  */
-public class DoublyLinkedList<T extends Number & Comparable> implements Ilist<T> {
+public class DoublyLinkedList<T extends  Comparable> implements Ilist<T> {
 
     private DoubleNode<T> head;
     private DoubleNode<T> tail;
@@ -137,6 +137,171 @@ public class DoublyLinkedList<T extends Number & Comparable> implements Ilist<T>
 
     }
     
- 
+    
+    public void deleteU(T d) {
+
+        if (isEmpty()) {
+
+        } else if (this.tail.getData() == d) {
+
+            this.tail.getPreviousNode().setNextNode(null);
+            this.tail = this.tail.getPreviousNode();
+
+        } else if (this.head.getData() == d) {
+
+            this.head = head.getNextNode();
+
+        } else {
+
+            DoubleNode<T> current = this.head.getNextNode();
+            while (current != null) {
+
+                if (current.getData() == d) {
+
+                    current.getPreviousNode().setNextNode(current.getNextNode());
+                    current.getNextNode().setPreviousNode(current.getPreviousNode());
+
+                }
+
+                current = current.getNextNode();
+
+            }
+
+        }
+
+    }
+    
+    
+    public void Insertnode(T pos, T dato) {
+        DoubleNode<T> current = this.head;
+
+        if (isEmpty()) {
+
+        } else if (this.tail.getData() == pos) {
+            
+             DoubleNode<T> newnodo = new DoubleNode<T>(dato, current, null);
+             this.tail.setNextNode(newnodo);
+             this.tail= newnodo; 
+            
+        } else {
+
+            while (current != null) {
+
+                if (current.getData() == pos) {
+
+                    DoubleNode<T> newnodo = new DoubleNode<T>(dato, current, current.getNextNode());
+                    current.getNextNode().setPreviousNode(newnodo);
+                    current.setNextNode(newnodo);
+
+                }
+                current = current.getNextNode();
+
+            }
+
+        }
+
+    }
+
+ /////////////////////////////////////////////////////////Caso Practico
+    
+    public String MostrarEstudiantes() {
+        String est = "";
+        DoubleNode<Estudiante> current = (DoubleNode<Estudiante>) this.head;
+        while (current != null) {
+            est = est + current.getData().getCedula() + "  " + current.getData().getNombre() + "  " + current.getData().getBarrio() + "  " + current.getData().getNotafinal() + " / ";
+            current = current.getNextNode();
+        }
+        return est;
+    }
+
+    public void AgregarEstudiante(Estudiante est) {
+
+        if (3 <= est.getNotafinal()) {
+
+            add((T) est);
+
+        } else {
+
+            addLast((T) est);
+        }
+
+    }
+    
+    public String Buscar( String est) {
+
+        String estudiante = "";
+        DoubleNode<Estudiante> current = (DoubleNode<Estudiante>) this.head;
+        while (current != null) {
+
+            if (current.getData().getCedula().equals(est)) {
+
+                estudiante = current.getData().getCedula() + "  " + current.getData().getNombre() + "  " + current.getData().getBarrio() + "  " + current.getData().getNotafinal();
+                return estudiante;
+            }
+            current = current.getNextNode();
+
+        }
+
+        return estudiante;
+
+    }
+    
+    
+    
+     public String BuscarBarrio(String est) {
+
+        String estudiante = "";
+        DoubleNode<Estudiante> current = (DoubleNode<Estudiante>) this.head;
+        while (current != null) {
+
+            if (current.getData().getBarrio().equals(est)) {
+
+                estudiante = estudiante + "  " + current.getData().getCedula() + "  " + current.getData().getNombre() + "  " + current.getData().getBarrio() + "  " + current.getData().getNotafinal() + " / ";
+
+            }
+            current = current.getNextNode();
+
+        }
+
+        return estudiante;
+
+    }
+     
+      public DoublyLinkedList<Estudiante> ListAprobados() {
+
+        DoubleNode<Estudiante> current = (DoubleNode<Estudiante>) this.head;
+        DoublyLinkedList<Estudiante> Aprobados = new DoublyLinkedList<>();
+
+        while (current != null) {
+            if (current.getData().getNotafinal() >= 3) {
+
+                Aprobados.AgregarEstudiante(current.getData());
+
+            }
+            current = current.getNextNode();
+
+        }
+        return Aprobados;
+
+    }
+      
+      
+      public DoublyLinkedList<Estudiante> ListReprobados() {
+
+        DoubleNode<Estudiante> current = (DoubleNode<Estudiante>) this.head;
+        DoublyLinkedList<Estudiante> Reprobados = new DoublyLinkedList<>();
+
+        while (current != null) {
+            if (current.getData().getNotafinal() < 3) {
+
+                Reprobados.AgregarEstudiante(current.getData());
+
+            }
+            current = current.getNextNode();
+
+        }
+        return Reprobados;
+
+    } 
 
 }
